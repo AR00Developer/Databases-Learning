@@ -122,150 +122,96 @@ FROM products
 WHERE product_id = ALL (SELECT product_id FROM order_Details WHERE quantity = 10); 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* 
+      ##  SELECT INTO copies data from one table into a new table 
+ SELECT INTO >> usually use to copy data from implict cursors in queries.
+ 
+ Usually most RDBMS support MERGE, UPSERT that allows to do a big dump of fields betweent tables based on conditions. 
+ INSERT INTO >> Copies data from one table and inserts it into another table, both table has to match field types and quantity.
+				Columns from the source table empty will fill with null the target one. (Table)
+*/ 
+
+-- Sample of SELECT INTO (generic) 
+SELECT * 
+INTO new_table [IN external_db] 
+FROM old_Table 
+WHERE condition;
+
+-- Sample of SELECT INTO (generic) | 02 
+SELECT column1, column2, column3 
+INTO new_table [IN external_db] 
+FROM old_Table 
+WHERE condition; 
+
+-- Sample of SELECT INTO to a external table all columns | 01
+SELECT * INTO customers_backup2018
+FROM customers; 
+
+-- Sample of SELECT INTO to a external table all columns | 02
+SELECT * INTO customers_backup2017 IN 'backup.mdb' 
+FROM customers; 
+
+-- Sample of SELECT INTO to a external table multiple column | 01
+SELECT customer_name, contact_name INTO customer_backup2017 
+FROM customers; 
+
+-- Sample of SELECT INTO to a external table multiple column | 02
+SELECT customer_name, contact_name INTO 'backup.mdb'
+FROM customers; 
+
+-- Sample of a INSERT INTO performed after a JOIN 
+SELECT cus.customer_name, ord.order_id 
+INTO customer_order_backup2017 
+FROM customers cus
+LEFT JOIN orders ON cus.customer_id = ord.customer_id; 
+
+
+-- Sample of a INSERT INTO 
+INSERT INTO table2 
+SELECT * FROM table1 
+WHERE ocndition 
+
+-- Sample of INSERT into some columns 
+INERT INTO table2 (column1, column2, column3, ... columnN) 
+SELECT column1, column2, column3, ... 
+FROM table1 
+WHERE condition; 
+
+-- Sample of INSERT INTO with multiple columns 
+INSERT INTO customers (customer_name, city, country) 
+SELECT supplier_name, city, country FROM suppliers; 
+
+-- Sample of INSERT INTO with WHERE clause 
+INSERT INTO customers (customer_name, city, country) 
+SELECT supplier_name, city, country FROM suppliers 
+WHERE country = 'Germany' ; 
+
+
+/* 
+SQL NULL functions >> As null values are special in some way of saying. We use mostly to interact with theme some special functions as follow  :
+ IFNULL(), ISNULL(), COLAESCE(), NVL() 
+
+  Most of them works in two ways, the first one from a 'n' set of values given to them the first evaluated to 'true' as existent' it's used. 
+  The second they return some numeric value indicating the existences or absensce of values in the field specified. 
+*/ 
+
+-- Sample of IFNULL mysql env. Just it chooses the first value not null 
+SELECT product_name, unit_price * (unit_in_stock + IF NULL(units_order, 0 )) 
+FROM products; 
+
+-- Sample of COALESCE()  
+SELECT product_name, unit_price * (units_in_stocl + COALESCE(units_in_order, 0)) 
+FROM products; 
+
+-- Sample of NVL oracle env. 
+SELECT product_name, unit_price * (units_in_stock + NVL(units_on_order, 0)) 
+FROM products; 
+
+-- Sample of SQL Server IF NULL function 
+SELECT product_name, unit_price * (units_in_stock + IS NULL(units_on_order, 0))
+FROM products; 
+
+-- Sample of MS Access IS NULL 
+SELECT product_name, unit_price * (units_in_stocl + IIF(isNull(units_order), 0, units_on_order))
+FROM products; 
 
