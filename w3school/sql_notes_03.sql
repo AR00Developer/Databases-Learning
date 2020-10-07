@@ -199,18 +199,3 @@ WHERE country NOT IN ('Germany', 'France', 'UK');
 SELECT * FROM customers 
 WHERE country IN (SELECT country FROM suppliers);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
