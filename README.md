@@ -22,13 +22,17 @@
 ## Description   
 ```
 	~~~SQL  
-	  ## - Queries and block of code are going to be closed in  SQL Format.
+	  -- Sample of code 'situation or functionality' (Generic/implemented) - System or Technologie related
+      /* 
+        Query code logic 
+    */
 	~~~
 ```
 
 Make sure to identified the source of resource at the top. 
 Type of syntax, and comment as you feel necesary. 
 
+Also don't doubt about search in google if you need more information or E.G for functions or performance suggestion.
  
  
 
